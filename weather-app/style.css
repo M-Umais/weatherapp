@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url("https://ukhsa.blog.gov.uk/wp-content/uploads/sites/33/2023/06/rainbow-4047523_1920.jpg");
+    background-position: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 10px;
+  background-color: azure;
+  padding: 20px;
+  margin-top: 100px;
+}
+h1{
+    font-size: 30px;
+}
+
+input[type="text"] {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+button{
+    background-color: black;
+    border: none;
+    color: #f0f0f0;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.Weatherdata {
+    margin-top: 20px;
+}
