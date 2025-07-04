@@ -25,22 +25,22 @@
   const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
 
   try {
-    // 1️⃣ Current weather
+    //  Current weather
     const currentRes = await fetch(currentUrl);
     if (!currentRes.ok) throw new Error(`Current: HTTP ${currentRes.status}`);
     const currentData = await currentRes.json();
 
-    // 2️⃣ 5‑day / 3‑hour forecast
+    //  5‑day / 3‑hour forecast
     const forecastRes = await fetch(forecastUrl);
     if (!forecastRes.ok) throw new Error(`Forecast: HTTP ${forecastRes.status}`);
     const forecastData = await forecastRes.json();
 
-    // 3️⃣ Show current weather
+    //  Show current weather
     locationElement.textContent    = currentData.name;
     temperatureElement.textContent = `${Math.round(currentData.main.temp)}°C`;
     descriptionElement.textContent = currentData.weather[0].description;
 
-    // 4️⃣ Clear + build forecast list
+   
 
     for (let i = 0; i < 5; i++) {
       const item = forecastData.list[i];           
