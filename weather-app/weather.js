@@ -8,6 +8,7 @@
   const locationElement    = document.getElementById('location');
   const temperatureElement = document.getElementById('temprature');
   const descriptionElement = document.getElementById('description');
+  const ForecastElement    = document.getElementById('forecast');
 
   
   searchButton.addEventListener('click', () => {
@@ -20,23 +21,49 @@
 
  
   async function fetchWeather(city) {
-    const url = `${apiUrl}?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
+  const currentUrl  = `${apiUrl}?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
+  const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
 
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  try {
+    // 1️⃣ Current weather
+    const currentRes = await fetch(currentUrl);
+    if (!currentRes.ok) throw new Error(`Current: HTTP ${currentRes.status}`);
+    const currentData = await currentRes.json();
 
-      const data = await response.json();
+    // 2️⃣ 5‑day / 3‑hour forecast
+    const forecastRes = await fetch(forecastUrl);
+    if (!forecastRes.ok) throw new Error(`Forecast: HTTP ${forecastRes.status}`);
+    const forecastData = await forecastRes.json();
 
-      
-      locationElement.textContent    = data.name;
-      temperatureElement.textContent = `${Math.round(data.main.temp)}°C`;
-      descriptionElement.textContent = data.weather[0].description;
-    } catch (err) {
-      console.error('Error fetching data:', err);
-      locationElement.textContent    = '—';
-      temperatureElement.textContent = '—';
-      descriptionElement.textContent = 'Unable to fetch weather';
+    // 3️⃣ Show current weather
+    locationElement.textContent    = currentData.name;
+    temperatureElement.textContent = `${Math.round(currentData.main.temp)}°C`;
+    descriptionElement.textContent = currentData.weather[0].description;
+
+    // 4️⃣ Clear + build forecast list
+
+    for (let i = 0; i < 5; i++) {
+      const item = forecastData.list[i];           
+      const time = item.dt_txt;
+      const temp = Math.round(item.main.temp);
+      const desc = item.weather[0].description;
+
+      const forecastItem = document.createElement("div");
+      forecastItem.className = "forecast-item";
+      forecastItem.innerHTML = `
+        <strong>${time}</strong><br>
+        ${temp}°C<br>
+        ${desc}
+      `;
+
+      ForecastElement.appendChild(forecastItem);
     }
-  }
 
+  } catch (err) {
+    console.error("Error fetching data:", err);
+    locationElement.textContent    = "—";
+    temperatureElement.textContent = "—";
+    descriptionElement.textContent = "Unable to fetch weather";
+    ForecastElement.innerHTML      = "";
+  }
+}

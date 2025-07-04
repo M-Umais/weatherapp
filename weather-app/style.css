@@ -37,3 +37,21 @@ button{
 .Weatherdata {
     margin-top: 20px;
 }
+
+#forecast {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.forecast-item {
+  background-color: #ffffffcc;
+  padding: 10px;
+  border-radius: 10px;
+  min-width: 130px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-align: center;
+  font-size: 14px;
+}
